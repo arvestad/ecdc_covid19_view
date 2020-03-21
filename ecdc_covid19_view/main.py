@@ -3,13 +3,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 #arve_selection = ['Sweden', 'Italy']
-arve_selection = ['Sweden', 'Italy', 'USA', 'Denmark', 'Norway', 'UK', 'Spain', 'Finland', 'France', 'Germany', 'China', 'South_Korea', 'Iran']
+arve_selection = ['Sweden', 'Italy', 'USA', 'Denmark', 'Norway', 'UK', 'Spain', 'Finland', 'France', 'Germany', 'China', 'South_Korea', 'Iran', 'Belgium', 'Iraq']
+europe = ['Sweden', 'Denmark', 'Norway', 'Finland', 'Iceland', 'Italy', 'France', 'Germany', 'Spain', 'Netherlands', 'Belgium', 'UK', 'Albania', 'Austria', 'Belarus', 'Bulgaria', 'Croatia', 'Cyprus', 'Estonia', 'Faroe_Islands', 'Greece', 'Hungary', 'Ireland', 'Latvia', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Malta', 'Poland', 'Russia', 'Serbia', 'Slovakia', 'Slovenia', 'Ukraine']
 
 
 def setup_argument_parsing():
     ap = argparse.ArgumentParser(description="Read data from ECDC's COVID-19 Excel sheets")
     ap.add_argument('infile', help="An Excel file from ECDC with the, uh, expected columns.")
     ap.add_argument('-a', '--arve-selection', action='store_true', help='Restrict to a subset of countries chosen by Lars Arvestad')
+    ap.add_argument('-e', '--europe', action='store_true', help='Restrict to European countries')
     ap.add_argument('-lc', '--list-countries', action='store_true', help='List countries and territories')
     ap.add_argument('-d', '--deaths', action='store_true', help='List countries and deaths, sorted by deaths')
     ap.add_argument('-md', '--min-deaths', type=int, default=10, help='Start plotting cumulative deaths at this many deaths (default 10)')
@@ -53,6 +55,8 @@ def main():
     country_list = remove_strange_names(country_list)
     if args.arve_selection:
         country_list = arve_selection
+    elif args.europe:
+        country_list = europe
 
     if args.list_countries:
         for country in country_list:
