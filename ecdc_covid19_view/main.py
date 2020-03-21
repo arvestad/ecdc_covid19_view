@@ -60,12 +60,14 @@ def main():
 
     elif args.deaths:
         table = country_death_summary(df, country_list)
+        print('Land                        Total deaths  Recent increases')
         for country, deaths in [(c, table[c]) for c in sorted(table, key=table.get, reverse=True)]:
-            print(f'{country:30}{deaths:>10}')
+            country_selection = df['Countries and territories'] == country
+            recently = ', '.join(map(str, list(df[country_selection]['Deaths'])[0:5]))
+            print(f'{country:30}{deaths:>10}   {recently}')
 
     else:
         current_axis = plt.gca()
-        current_axis.legend(loc=2, fontsize='xx-small')
         countries_used = []
         for country in country_list:
             country_selection = df['Countries and territories'] == country
@@ -74,7 +76,7 @@ def main():
             country_data['Cumulative deaths'] = country_data['Deaths'].cumsum()
 
             date_selection = country_data['Cumulative deaths'] >= args.min_deaths
-            restricted_country_data = country_data[date_selection]
+            restricted_country_data = country_data[date_selection].copy()
             n_items = len(restricted_country_data)
             if n_items == 0:
                 print(f'Less than {args.min_deaths} deaths for {country}. Not plotting.')
@@ -84,5 +86,6 @@ def main():
                 restricted_country_data.plot(kind='line', x=x_title, y='Cumulative deaths', ax=current_axis, logy=True, marker='.', legend=country)
                 countries_used.append(country)
 
+        current_axis.legend(loc=2, fontsize='xx-small')
         current_axis.legend(countries_used)
         plt.show()
