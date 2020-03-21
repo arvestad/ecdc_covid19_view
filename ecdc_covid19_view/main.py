@@ -1,6 +1,8 @@
 import argparse
 import matplotlib.pyplot as plt
 import pandas as pd
+from cycler import cycler
+from datetime import date
 
 #arve_selection = ['Sweden', 'Italy']
 arve_selection = ['Sweden', 'Italy', 'USA', 'Denmark', 'Norway', 'UK', 'Spain', 'Finland', 'France', 'Germany', 'China', 'South_Korea', 'Iran', 'Belgium', 'Iraq']
@@ -72,6 +74,8 @@ def main():
 
     else:
         current_axis = plt.gca()
+        # current_axis.set_prop_cycle(cycler('color', list('rbgykcm')) *
+        #                             cycler('linestyle', ['-', ':']))
         countries_used = []
         for country in country_list:
             country_selection = df['Countries and territories'] == country
@@ -92,4 +96,9 @@ def main():
 
         current_axis.legend(loc=2, fontsize='xx-small')
         current_axis.legend(countries_used)
+
+        today = date.today()
+        output_file_name = f'covid_deaths_{today}.pdf'
+        plt.savefig(output_file_name)
+        print(f'Saved figure as a PDF: {output_file_name}')
         plt.show()
