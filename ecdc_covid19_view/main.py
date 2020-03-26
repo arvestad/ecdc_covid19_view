@@ -116,8 +116,9 @@ def main():
                 current_color = colors[i%len(colors)]
                 i += 1
 
-                drawing_depth = -max(country_data['Cumulative deaths']
-                restricted_country_data.plot(kind='line', x=x_title, y='Cumulative deaths', ax=current_axis, logy=True, marker='.', legend=country, color=current_color, linestyle='-',zorder=drawing_depth))
+                drawing_depth = -max(country_data['Cumulative deaths'])
+                restricted_country_data.plot(kind='line', x=x_title, y='Cumulative deaths', ax=current_axis, logy=True,
+                                             marker='.', legend=country, color=current_color, linestyle='-', zorder=drawing_depth)
                 if args.regression and n_items > 5:
                     n_recent_days, x_values, slant, offset = compute_regression(restricted_country_data, x_title, args.regression)
                     first_day = x_values[0]
@@ -128,8 +129,8 @@ def main():
                     y_last_day = math.exp(last_day*slant+offset)
                     plt.plot([first_day, last_day], [y_first_day, y_last_day], linestyle=':', color=current_color, label='_nolegend_')
                     percent_increase = int(round(slant*100))
-                    plt.annotate(f' {math.floor(y_last_obs_day)} {country}', xy=(last_obs_day, y_last_obs_day), color=current_color,zorder=drawing_depth))
-                    plt.annotate(f'{math.floor(y_last_day)}? ({percent_increase}%)', xy=(last_day, y_last_day), color=current_color,zorder=drawing_depth]))
+                    plt.annotate(f' {math.floor(y_last_obs_day)} {country}', xy=(last_obs_day, y_last_obs_day), color=current_color,zorder=drawing_depth)
+                    plt.annotate(f'{math.floor(y_last_day)}? ({percent_increase}%)', xy=(last_day, y_last_day), color=current_color,zorder=drawing_depth)
                 countries_used.append(country)
 
         current_axis.legend(loc=2, fontsize='xx-small')
