@@ -33,7 +33,7 @@ setuptools.setup(
     entry_points={
         'console_scripts':[
             'ecdc_covid19_view = ecdc_covid19_view.main:main',
-            'ecdc_download = ecdc_covid19_view.download:main'
+#            'ecdc_download = ecdc_covid19_view.download:main'
         ]
     },
     install_requires=[
